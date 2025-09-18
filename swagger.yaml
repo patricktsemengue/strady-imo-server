@@ -1,0 +1,135 @@
+openapi: 3.0.0
+info:
+  title: Strady.imo API
+  version: 1.0.0
+  description: API for the Strady.imo real estate calculator, handling PDF generation and loan rate management.
+servers:
+  - url: http://localhost:3001
+    description: Development server
+
+paths:
+  /api/loan-rates:
+    get:
+      summary: Retrieves the list of loan rates per duration.
+      description: Fetches the cached list of loan durations and their corresponding interest rates from the server.
+      responses:
+        '200':
+          description: A successful response with the list of loan rates.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    duration:
+                      type: string
+                      example: "25"
+                    rate:
+                      type: string
+                      example: "3.50"
+
+  /api/upload-rates:
+    post:
+      summary: Uploads a new CSV file with loan rates.
+      description: Allows an admin to upload a new `rate-per-duration.csv` file to update the server's loan rate data.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                ratesFile:
+                  type: string
+                  format: binary
+                  description: The CSV file to upload.
+      responses:
+        '200':
+          description: File uploaded and rates refreshed successfully.
+        '400':
+          description: No file uploaded.
+
+  /api/generate-pdf:
+    post:
+      summary: Generates a PDF summary of a real estate project.
+      description: Takes a JSON object with all project data and returns a downloadable PDF summary.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                propertyPrice:
+                  type: number
+                propertyType:
+                  type: string
+                region:
+                  type: string
+                isPrimaryResidence:
+                  type: boolean
+                renovationItems:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id: { type: number }
+                      name: { type: string }
+                      surface: { type: number }
+                      intensity: { type: string }
+                personalContribution:
+                  type: number
+                loanDuration:
+                  type: number
+                interestRate:
+                  type: number
+                monthlyRent:
+                  type: number
+                otherMonthlyIncome:
+                  type: number
+                vacancyRate:
+                  type: number
+                propertyTax:
+                  type: number
+                insurance:
+                  type: number
+                maintenance:
+                  type: number
+                coOwnershipFees:
+                  type: number
+                otherExpenses:
+                  type: number
+              example:
+                propertyPrice: 250000
+                propertyType: "existing"
+                region: "brussels"
+                isPrimaryResidence: true
+                renovationItems:
+                  - id: 1726524612345
+                    name: "Kitchen"
+                    surface: 15
+                    intensity: "medium"
+                  - id: 1726524654321
+                    name: "Bathroom"
+                    surface: 8
+                    intensity: "heavy"
+                personalContribution: 50000
+                loanDuration: 25
+                interestRate: 3.5
+                monthlyRent: 1250
+                otherMonthlyIncome: 50
+                vacancyRate: 5
+                propertyTax: 1100
+                insurance: 400
+                maintenance: 600
+                coOwnershipFees: 80
+                otherExpenses: 0
+      responses:
+        '200':
+          description: A PDF file generated successfully.
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary

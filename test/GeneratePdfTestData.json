@@ -1,0 +1,30 @@
+{
+  "propertyPrice": 250000,
+  "propertyType": "existing",
+  "region": "brussels",
+  "renovationItems": [
+    {
+      "id": 1726524612345,
+      "name": "Kitchen",
+      "surface": 15,
+      "intensity": "medium"
+    },
+    {
+      "id": 1726524654321,
+      "name": "Bathroom",
+      "surface": 8,
+      "intensity": "heavy"
+    }
+  ],
+  "personalContribution": 50000,
+  "loanDuration": 25,
+  "interestRate": 3.5,
+  "monthlyRent": 1250,
+  "otherMonthlyIncome": 50,
+  "vacancyRate": 5,
+  "propertyTax": 1100,
+  "insurance": 400,
+  "maintenance": 600,
+  "coOwnershipFees": 80,
+  "otherExpenses": 0
+}
