@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: API for the Strady.imo real estate calculator, handling PDF generation and loan rate management.
 servers:
-  - url: http://localhost:3001
+  - url: /
     description: Development server
 
 paths:
